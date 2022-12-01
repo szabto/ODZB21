@@ -1,12 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
-	<title>ODZB21 - 7. tétel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>ODZB21 - 7. tétel</title>
+    <style>
+        body {
+            padding: 20px 0;
+        }
+        .thesis {
+            background: #eee;
+            padding: 10px 0;
+            margin: 30px 0;
+        }
+
+        .thesis p {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body>
-	Hello World!
+<h1 class="text-center">ODZB21</h1>
+
+<div class="thesis">
+    <div class="container">
+        <p>Ismertesse egy webes kiszolgáló két legfontosabb alrendszerét. Beszéljen a MySQL architektúrájáról, mutassa
+            be az elérhető adatbázismotorokat. Mutassa be a MySQL jogosultságkezelési rendszerét! Ismertesse az Apache
+            webszerver felépítését is. Térjen ki a modularitásra! Mire való a virtual host az apachban? Hogyan működik?
+            Hogyan kell beállítani? Írjon a hitelesítés és jelszókezelés lehetőségeiről az Apache-ban! Hogyan épül fel
+            az Apache konfigurációs fájl? (direktívák, konténerek, kontextus)</p>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Webes kiszolgáló legfontosabb alrendszerei</h2>
+    <hr>
+
+    <h2 class="text-center">MYSQL</h2>
+    A MySQL egy nyílt forráskódú relációs adatbázismotor.
+    <h3>Architektúrája</h3>
+    <figure class="figure">
+        <img src="img/MySQLArch.png" class="figure-img img-fluid rounded" alt="">
+        <figcaption class="figure-caption text-end">A MySQL felépítése</figcaption>
+    </figure>
+    <h3>Adatbázismotorok</h3>
+    <p>A leggyakrabban használt adatbázis motorokat fogom bemutatni.</p>
+    <p>InnoDb</p>
+    <ul>
+        <li>Tranzakcióképes</li>
+        <li>Sorszintű lockolás</li>
+        <li>Idegenkulcsra való lehetőség</li>
+        <li>Gyorsabb írás, nagy mennyiségnél gyorsabb olvasás is</li>
+    </ul>
+    <figure class="figure">
+        <img src="img/innodb.png" class="figure-img img-fluid rounded" alt="">
+        <figcaption class="figure-caption text-end">Az InnoDB architektúra</figcaption>
+    </figure>
+    <p>MYISAM</p>
+    <ul>
+        <li>Nem tranzakcióképes</li>
+        <li>Táblaszintű lockolás</li>
+        <li>Nem támogatja az idegen kulcsokat</li>
+        <li>Gyorsabb olvasás</li>
+    </ul>
+    <p>Memory</p>
+    <h3>Jogosultságkezelés</h3>
+    <hr>
+    <h2 class="text-center">Apache</h2>
+    <h3>Felépítése</h3>
+    <h3>Modularitás</h3>
+    <p>
+        A webszerver csak az alapvető feladatokat látja el, pl. http headerek parsolása,
+    </p>
+    <h3>VirtualHostok</h3>
+    <p>
+        A virtualhostok célja, hogy ha egy webszerver több weboldalt is (webcímet) szeretne üzemeltetni,
+        akkor a virtualhost ad lehetőséget arra, hogy a webcím alapján elszeparálja egymástól a weboldalakat.
+    </p>
+    <p>
+        Pl: Adott 2 weboldal, jozsi.hu, peti.hu akkor jó eséllyel azt szeretnénk, hogy a 2 weboldalnak más-más
+        tartalma legyen, más indexet hozzon az egyik és másikat a másik weboldal. Ilyenkor 2 külön vhostot kell
+        konfigurálni, majd külön DocumentRoot-ot adni nekik.
+    </p>
+    <p>
+        Ez után az egyes domain betöltésekor az apache a HTTP headerből kinyeri a domain nevet, majd megpróbálja
+        valamely VirtulHostra matchelni azt. Ha van találat, akkor az adott VirtualHost beállításaival és DocRootjával
+        fogja a tartalmat kiszolgálni, ha nincs, akkor default-ra fut.
+    </p>
+    <h3>Jelszókezelés / Hitelesítés</h3>
+    <h3>Konfigurációs fájl</h3>
+
+</div>
 </body>
 </html>
