@@ -1,4 +1,19 @@
-# ODZB21
+# PTE MIK Felhőtech házi - ODZB21 [![Docker Repository on Quay](https://quay.io/repository/szabto/odzb21/status "Docker Repository on Quay")](https://quay.io/repository/szabto/odzb21)
+
+## Használat
+A Quay.io ról leszedhető a buildelt képfájl.
+```bash
+docker pull quay.io/szabto/odzb21:latest
+```
+Vagy az image lebuildelhető lokálisan is.
+```bash
+git clone https://github.com/szabto/ODZB21.git
+cd ODZB21
+docker build .
+```
+
+# A feladat
+Kapott tétel : 7
 
 ## Rövid összefoglaló:
 Készítsen egy HTML dokumentumot, amit egy ön által készített konténer szolgál ki.
