@@ -8,15 +8,36 @@
     <style>
         body {
             padding: 20px 0;
+            color: #333;
         }
+
         .thesis {
             background: #eee;
-            padding: 10px 0;
+            padding: 30px 0;
             margin: 30px 0;
+            color: #333;
         }
 
         .thesis p {
             margin-bottom: 0;
+        }
+
+        h2 {
+            display: inline-block;
+            background: #333;
+            padding: 5px 10px;
+            color: #fff;
+        }
+
+        .footer {
+            padding-top: 50px;
+            border-top: 1px solid #eee;
+            margin-top: 50px;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
         }
     </style>
 </head>
@@ -34,44 +55,33 @@
 </div>
 
 <div class="container">
-    <h2>Webes kiszolgáló legfontosabb alrendszerei</h2>
-    <hr>
-
-    <h2 class="text-center">MYSQL</h2>
-    A MySQL egy nyílt forráskódú relációs adatbázismotor.
-    <h3>Architektúrája</h3>
-    <figure class="figure">
-        <img src="img/MySQLArch.png" class="figure-img img-fluid rounded" alt="">
-        <figcaption class="figure-caption text-end">A MySQL felépítése</figcaption>
-    </figure>
-    <h3>Adatbázismotorok</h3>
-    <p>A leggyakrabban használt adatbázis motorokat fogom bemutatni.</p>
-    <p>InnoDb</p>
-    <ul>
-        <li>Tranzakcióképes</li>
-        <li>Sorszintű lockolás</li>
-        <li>Idegenkulcsra való lehetőség</li>
-        <li>Gyorsabb írás, nagy mennyiségnél gyorsabb olvasás is</li>
-    </ul>
-    <figure class="figure">
-        <img src="img/innodb.png" class="figure-img img-fluid rounded" alt="">
-        <figcaption class="figure-caption text-end">Az InnoDB architektúra</figcaption>
-    </figure>
-    <p>MYISAM</p>
-    <ul>
-        <li>Nem tranzakcióképes</li>
-        <li>Táblaszintű lockolás</li>
-        <li>Nem támogatja az idegen kulcsokat</li>
-        <li>Gyorsabb olvasás</li>
-    </ul>
-    <p>Memory</p>
-    <h3>Jogosultságkezelés</h3>
-    <hr>
-    <h2 class="text-center">Apache</h2>
-    <h3>Felépítése</h3>
+    <div class="text-center">
+        <h2>Webes kiszolgáló legfontosabb alrendszerei</h2>
+    </div>
+    <p>A webes kiszolgálók általában 2 fontos szerver oldali alrendszerből állnak össze, webszerver és adatbázis.</p>
+    <p class="mb-0">A webszerver felelős a http kérések kiszolgálásért, a scriptek megfuttatásáért, valamint a resourcek
+        leküldéséért
+        a kliens felé.</p>
+    <p>Az adatbázis feladata, hogy a dinamikusan változó adatokat tárolja. Például felhasználói adatokat, mint
+        felhasználónév, jelszó, email cím, stb. Az adatbázishoz a weboldal scriptje, vagy forráskódja csatlakozik, ami
+        ezeket az adatokat képes feldolgozni, és ezeknek megfelelően legenerálni a választ.</p>
+    <p>A két alrendszer részletesebben lejjebb van kifejtve.</p>
+    <div class="text-center">
+        <h2>Apache</h2>
+    </div>
+    <p>
+        Az apache egy teljesen modularizált open source HTTP szerver. Feladata, hogy a klienstől érkező kérések
+        fogadására portot nyisson, ezen figyeljen, valamin a kérés feldolgozása után a megfelelő feladatot lássa el. A
+        megfelelő feladat lehet egy fájl tartalmának leküldése a kliens felé, egy kód lefuttatása, vagy akár felhasználó
+        authentikálása, melyeket különböző modulokkal hajt végre.
+    </p>
     <h3>Modularitás</h3>
     <p>
-        A webszerver csak az alapvető feladatokat látja el, pl. http headerek parsolása,
+        A webszerver csak az alapvető feladatokat látja el, mint http headerek parsolása, konfigurációs fájlok
+        betöltése, válasz küldése vissza a kérő félnek. Ezen felül minden más taszkot a modulok látnak el benne. Minden
+        modul külön külön kofigurálható, bekapcsolható, telepíthető, ezek egymástól teljesen függetlenül is tudnak
+        működni, vagy akár együtt is. Ilyen modulok pl: mod_authn, ssl, stb. Mivel számtalan modul létezik hozzá nem
+        térek ki mindre egyesével.
     </p>
     <h3>VirtualHostok</h3>
     <p>
@@ -89,7 +99,123 @@
         fogja a tartalmat kiszolgálni, ha nincs, akkor default-ra fut.
     </p>
     <h3>Jelszókezelés / Hitelesítés</h3>
+    <p>
+        A hitelesítésről is apache modul gondoskodik ami lehet saját is, de van pár beépített modul is rá ami ebben
+        segítséget nyújt, ilyen gyakori modul pl a <code>auth_basic_module</code>. Ez egy szabványos HTTP authentikáció,
+        ami a
+        felhasználói nevet és jelszót megkeresi az erre a célra létrehozott fájlban (ált. <code>.htpasswd</code>)
+        melyben a
+        felhasználói nevek és jelszavak soronként vannak tárolva és kettősponttal vannak elválasztva, a jelszónak pedig
+        csak egy hash-je van tárolva. Ilyen fájlt generálni a <code>htpasswd</code> programmal lehet.
+    </p>
     <h3>Konfigurációs fájl</h3>
+    <p>Az apache 1 konfigurációs fájlt tölt be ami linuxnál (a példa kedvéért centos,
+        valamint httpd ről mesélek) <code>/etc/httpd/conf/httpd.conf</code>
+        útvonalon található. A modularitás, és szeparáltság miatt lehetőség van
+        <code>Include</code> vagy <code>IncludeOptional</code>
+        Direktivákkal más konfigurációs fájlokat / mappákban lévő fájlokat is
+        betölteni. Így egy basic http install a
+        következő képpen néz ki:</p>
+    <ul>
+        <li>/etc/httpd/conf/
+        <li>/etc/httpd/conf.d/</li>
+        <li>/etc/httpd/conf.modules.d/</li>
+    </ul>
+    <p>
+        A mappákban a fájlok ABC sorrendben vannak betöltve, így általában a fájlokat számokkal
+        prefixálják. Pl.: <code>00-base.conf</code>.
+    </p>
+    <p>
+        A konfigurációs fájlok fő elemei a Direktívák. Ezek segítségével lehet egy adott paramétert / opciót
+        megváltoztatni. Direktívákat az apache core, valamint a moduljai tudnak létrehozni. Ezek a paraméterek
+        érvényesek lehetnek az egész szerverre, de akár le is választhatóak akár egy mappára, vagy egy egy
+        VirtualHost-ra is. Ezenkek a paraméterezhetősége mindig direktíva függő, hogy milyen szintű változtatást enged a
+        rendszerben.
+    </p>
+    <div class="text-center">
+        <h2>MYSQL</h2>
+    </div>
+    <p>
+        A MySQL egy nyílt forráskódú relációs adatbázis szoftver. A tárolási felépítése adatbázisokból, táblákból, és
+        táblákban szereplő sorokból áll, melyeket szövegesen (Structured Query Language) SQL parancsokkal lehet
+        lekérdezni, valamint módosítani.
+        Pl: <code>SELECT * FROM users WHERE username='szabto'</code>
+    </p>
+    <h3>Architektúrája</h3>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="img/MySQLArch.png" class="figure-img img-fluid rounded" alt="">
+            <figcaption class="figure-caption text-end">A MySQL felépítése</figcaption>
+        </figure>
+    </div>
+    <h4>Kliens oldal</h4>
+    <p>A kliens oldali szoftver felelős azért, hogy a kapcsolatot létrehozza az adatbázis szerverrel, valamint
+        felparaméteretezze megfelelően az utasításokat. A kliens oldali komponens, általában beépülő modul a megfelelő
+        programnyelveken interfészt ad mellyel magasabb szintü nyelven lehetésges a kommunikáicó az adatbázis
+        szerverrel. A csatlakozás után ugyan úgy stringekkel lehet beszélgetni a szerverrel.</p>
+    <h4>Szerver oldal</h4>
+    <p>A szerver oldal feladata, hogy kapcsolódás lehetőséget biztosítson a kliensek számára, authentikálja őket,
+        valamint feldolgozza azok
+        kéréseit, és választ adjon rá. Ezeket a kéréseket a tárolómotorok segítik. A kéréseket, valamint az erre adott
+        válaszokat - amennyiben lehetőség van rá - a szerver gyorsítótárazza is, a teljesitmény érdekében.</p>
+    <h4>Tárolómotor</h4>
+    <p>
+        Különböző tárolómotorok segítik a szerver munkáját, amik eldöntik, hogy az adat hogyan van/legyen tárolva a
+        szerveren, hogyan kell őket visszaolvasni, keresni bennük, valamint az egyes változásoknak a robosztusságát és
+        biztos végbemenetelét biztosíták, vagy éppen nem.
+    </p>
+    <p>A leggyakrabban használt adatbázis motorok:</p>
+    <p><strong>InnoDb</strong></p>
+    <ul>
+        <li>Tranzakcióképes</li>
+        <li>Sorszintű lockolás</li>
+        <li>Idegenkulcsra való lehetőség</li>
+        <li>Gyorsabb írás, nagy mennyiségnél gyorsabb olvasás is</li>
+    </ul>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="img/innodb.png" class="figure-img img-fluid rounded" alt="">
+            <figcaption class="figure-caption text-end">Az InnoDB architektúra</figcaption>
+        </figure>
+    </div>
+    <p><strong>MYISAM</strong></p>
+    <ul>
+        <li>Nem tranzakcióképes</li>
+        <li>Táblaszintű lockolás</li>
+        <li>Nem támogatja az idegen kulcsokat</li>
+        <li>Gyorsabb olvasás</li>
+    </ul>
+    <p><strong>Memory</strong></p>
+    <ul>
+        <li>Nem tranzakció képes</li>
+        <li>Táblaszintű lockok</li>
+        <li>Nincs idegen kulcs</li>
+        <li>Gyors működés (minden adat memóriában van) - általában cache re használják</li>
+    </ul>
+    <h3>Jogosultságkezelés</h3>
+    <p>
+        A mysql a jogosultságokat ugyan úgy adatbázisban tárolja, mint ahogy a felhasználó által bevitt adatokat,
+        valamint a tábláinak metaadatait és relációit.
+    </p>
+    <p>
+        Megkülönböztetünk adatbázis szintű, tábla szintü, valamint
+        szerver szintű jogosultságokat is. Ezeket a szinteket még tovább lehet bontani, írás, olvasás, grant, stb.
+        akciókra is. A jogosultságok ezek mellett a kapcsolatot kezdeményező fél nevére/címre is vonatkoznak. Azaz
+        minden felhasználóhoz megadható, hogy ő milyen címről léphet be. De akár arra is van lehetőség hogy 2 ugyan
+        olyan nevü és jelszavú felhasználó más más ip cimről más jogokkal rendelkezzen.
+    </p>
+
+    <div class="footer">
+        <p>Források:</p>
+        <ul>
+            <li><a href="https://httpd.apache.org" target="_blank">https://httpd.apache.org</a></li>
+            <li><a href="https://www.mysql.com/" target="_blank">https://www.mysql.com/</a></li>
+            <li><a href="https://www.docs4dev.com/docs/en/mysql/5.7/reference/innodb-architecture.html" target="_blank">https://www.docs4dev.com/docs/en/mysql/5.7/reference/innodb-architecture.html</a>
+            </li>
+            <li><a href="https://www.geeksforgeeks.org/architecture-of-mysql/" target="_blank">https://www.geeksforgeeks.org/architecture-of-mysql/</a>
+            </li>
+        </ul>
+    </div>
 
 </div>
 </body>
